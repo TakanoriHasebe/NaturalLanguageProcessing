@@ -1,5 +1,6 @@
 This repository contains NLP's Information Retrieval Program
 
-ir.py contains main programs
-
+InformationRetrieval.py contains main function 
 As an example TF-IDF and Residual-IDF
+
+

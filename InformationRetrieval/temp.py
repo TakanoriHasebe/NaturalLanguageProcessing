@@ -8,7 +8,7 @@ Created on Thu Dec 22 17:46:03 2016
 
 import nltk
 import math
-import nlph
+import InformationRetrieval as ir
 
 
 docs = [
@@ -19,12 +19,12 @@ docs = [
 ]
 
 #tfidfの表示
-tfidf_result = nlph.tfidf(docs)
+tfidf_result = ir.tfidf(docs)
 for l in tfidf_result:
     
     print(l)
 
-#ridfの表示
+
 
 
 
