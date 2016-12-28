@@ -9,6 +9,8 @@ Created on Thu Dec 22 16:29:58 2016
 """
 このプログラムは
 自然言語処理(NLP)によく用いられる手法のプログラムが記載されてある
+
+主に情報検索技術に用いられるプログラムが記述してある
 """
 
 import numpy as np
@@ -92,6 +94,7 @@ class IR():
         idf_vocab = {}
         for t in word_dcount_vocab.keys():
             
+            #ここでlogの底を2, eなどに変えることで結果も変わる
             idf_temp = math.log10(len(sentences)/word_dcount_vocab[t]) + 1
             idf_vocab.update({t: idf_temp})
             
@@ -100,6 +103,7 @@ class IR():
 
 '''
 tfidfを求める関数
+入力するsentencesは１文が分かち書きされており, １つの配列に単語が要素として入っている
 
 入力例
 sentences = [
