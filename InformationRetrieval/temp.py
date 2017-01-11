@@ -23,8 +23,12 @@ tfidf_result = ir.tfidf(docs)
 for l in tfidf_result:
     
     print(l)
+print(' ')
 
-
+ridf_result = ir.ridf(docs)
+for r in ridf_result:
+    
+    print(r)
 
 
 

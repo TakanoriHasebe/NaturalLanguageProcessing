@@ -102,7 +102,7 @@ class IR():
         return idf_vocab
 
 '''
-tfidfを求める関数
+TF-IDFを算出する関数
 入力するsentencesは１文が分かち書きされており, １つの配列に単語が要素として入っている
 
 入力例
@@ -137,9 +137,47 @@ def tfidf(sentences):
         
     return tfidf_vocab_list        
         
+'''
+R-IDFを算出する関数
+
+入力例
+TF-IDFと同様の入力にする
+'''
+def ridf(sentences):
+    
+    ir = IR()
+    
+    #最終結果を返すリスト
+    ridf_vocab_list = []
+    
+    #sentencesを代入してTerm Frequencyを算出
+    tf_vocab_list = ir.tf(sentences)
+    
+    #sentencesを代入してinverse document frequencyを算出
+    idf_vocab = ir.idf(sentences)
+    
+    #print('tf_vocab_list: '+str(tf_vocab_list))
+    #print(' ')
+    #print('idf_vocab: '+str(idf_vocab))
         
+    #R-IDFの算出
+    ridf_vocab = {}
+    for i in range(len(sentences)):
+        for j in range(len(sentences[i])):
+            
+            ridf_vocab[sentences[i][j]] = idf_vocab[sentences[i][j]] + math.log2(1 - math.exp(-(tf_vocab_list[i][sentences[i][j]]/len(sentences))))
+            #print(sentences[i][j], ridf_vocab)
+        ridf_vocab_list.append(ridf_vocab)
+        ridf_vocab = {} #初期化
         
-        
-        
-        
-        
+    #print(ridf_vocab_list)
+    return ridf_vocab_list
+    
+    
+    
+    
+    
+    
+    
+    
+    
