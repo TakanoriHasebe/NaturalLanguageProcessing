@@ -11,6 +11,15 @@ Created on Thu Dec 22 16:29:58 2016
 自然言語処理(NLP)によく用いられる手法のプログラムが記載されてある
 
 主に情報検索技術に用いられるプログラムが記述してある
+
+### TF-IDFにコサイン正規化を実装する ###
+# 結果についての考察
+最終的な結果を, コサイン類似度で正規化してもあまり意味がない
+# 判断
+R-IDFを用いて, 特徴語を抜き出す
+### R-IDFにコサイン正規化を実装してみる ###
+# 判断
+最終的な結果をコサイン正規化しても意味がないのでは
 """
 
 import numpy as np
@@ -117,25 +126,41 @@ def tfidf(sentences):
     
     ir = IR()
     
-    #最終結果を返すリスト
+    # 最終結果を返すリスト
     tfidf_vocab_list = []
     
-    #sentencesを代入してTerm Frequencyを算出
+    # sentencesを代入してTerm Frequencyを算出
     tf_vocab_list = ir.tf(sentences)
     
-    #sentencesを代入してinverse document frequencyを算出
+    # sentencesを代入してinverse document frequencyを算出
     idf_vocab = ir.idf(sentences)
     
-    #TFIDFの算出
+    # TFIDFの算出
     tfidf_vocab_list = []
     for i in range(len(sentences)):
         tfidf_vocab = {}
         for j in range(len(sentences[i])):
+            
             tfidf_vocab.update({sentences[i][j] : tf_vocab_list[i][sentences[i][j]]*idf_vocab[sentences[i][j]] })
+            
         #print(tfidf_vocab)
+        
         tfidf_vocab_list.append(tfidf_vocab)
         
-    return tfidf_vocab_list        
+    # TFIDFの辞書をコサイン正規化
+    print(len(tfidf_vocab_list))
+    for i in range(len(tfidf_vocab_list)):
+        
+        # 辞書の要素を抜き出し, コサイン正規化し, 新しいリストの作成
+        value_list = list(tfidf_vocab_list[i].values()) / np.linalg.norm(list(tfidf_vocab_list[i].values()))
+        # 辞書から単語を抜き出し, 単語のリストを作成
+        word_list = list(tfidf_vocab_list[i].keys())
+        # 辞書にコサイン類似度で算出した値を入れる
+        for j in range(len(word_list)):
+            
+            tfidf_vocab_list[i][word_list[j]] = value_list[j]
+        
+    return tfidf_vocab_list
         
 '''
 R-IDFを算出する関数
